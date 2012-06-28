@@ -1,5 +1,30 @@
-// I gather this file is a starting point for the project.
-@import "bootstrap";
+// Own Variabels //
 
-// Include responsive Bootstrap styles
-// @import "bootstrap-responsive";
+// Import Bootstrap
+@import "bootstrap";
+// Navbar Fix
+body { padding-top:$navbarHeight + 25px; }
+.container { height:$navbarHeight; }
+// Import Bootstrap Responsive for Mobile Devices
+@import "bootstrap-responsive";
+
+
+// COLOR SET //
+// Colorscheme
+
+$red1: #CF2E4D;
+
+// Variabel Overrides //
+$baseFontSize: 14px;
+$linkColor: $red1;
+$tableBackground: white;
+$navbarHeight:37px;
+
+
+////////////////////////////////////////////////////////////////////////////
+
+
+html, body { background-color:silver; }
+.dropdown-menu li > a:hover { background-color:$red1; }
+
+.content-box { background-color:white; @include border-radius(5px); padding:15px; }

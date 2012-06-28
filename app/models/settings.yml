@@ -1,0 +1,17 @@
+defaults: &defaults
+  aacc:
+    request_type: http://
+    ip: 10.100.10.52
+    request_port: 80
+
+development:
+  <<: *defaults
+  neat_setting: 800
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults
+
+

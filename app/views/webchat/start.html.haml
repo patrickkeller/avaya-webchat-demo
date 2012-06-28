@@ -1,0 +1,21 @@
+.row
+  .span4
+    = image_tag("logo-small-transparent.png")
+  .span4
+    = form_tag root_path, {:class => 'form-horizontal'} do
+      .content-box
+        .login-field
+          = label_tag "Name:"
+          = text_field_tag :username, params[:username]
+        .login-field
+          = label_tag "Email-Adresse:"
+          = text_field_tag :email, params[:email]
+        .login-field
+          = label_tag "Telefonnummer:"
+          = text_field_tag :phone, params[:phone]
+        #submit-button
+          = submit_tag "Chatten", :class => 'btn btn-danger', :value => 'Mit einem Mitarbeiter chatten'    
+
+
+
+

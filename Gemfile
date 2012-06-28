@@ -20,10 +20,20 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
+# HAML Integration
+gem 'haml-rails'
+
+# jQuery
 gem 'jquery-rails'
+
+# Bootstrap
 gem 'bootstrap-sass', '~> 2.0.4.0'
 
+# SOAP Integration
 gem 'savon'
+
+# Settings
+gem 'settingslogic'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
@@ -39,5 +49,10 @@ gem 'savon'
 
 # To use debugger
 # gem 'debugger'
+
+group :development do
+  gem 'rails-dev-tweaks'
+end
+
 
 
