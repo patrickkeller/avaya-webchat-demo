@@ -3,7 +3,8 @@ defaults: &defaults
     request_type: http://
     ip: 10.100.10.52
     request_port: 80
-
+    callback_skillset: "OB_Default_Skillset"
+    
 development:
   <<: *defaults
   neat_setting: 800
