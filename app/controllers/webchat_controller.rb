@@ -23,7 +23,7 @@ class WebchatController < ApplicationController
 
     register_new_customer(lastname, username, password, "", "", number)
 
-    session_key = login(username, password)
+    session_key = customer_login(username, password)
     cust_id = get_customer_id(session_key, username)
     skillset_id = get_skillset_by_name(session_key)
     millisecond = convert_timestamp_to_milliseconds(hour, min, day, month, year)
