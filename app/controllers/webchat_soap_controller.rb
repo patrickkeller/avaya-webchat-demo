@@ -1,12 +1,13 @@
 class WebchatSoapController < ApplicationController  
 
-  def get_anonymous_session_key 
+  def get_anonymous_session_key # Für alle weiteren SOAP Funktionen wird IMMER ein SessionKey benötigt damit AACC die Kommunikation zuordnen kann
     client = get_wsdl("CIUtilityWs")
     response.to_hash = client.request(:get_anonymous_session_key)
 
     @session_key = response[:get_anonymous_session_key_response][:get_anonymous_session_key_result][:session_key]
     @anonymous_id = response[:get_anonymous_session_key_response][:get_anonymous_session_key_result][:anonymous_id]
   end
+  helper :get_anonymous_session_key
 
   def get_anonymous_customer_id(session_key, anonymous_id)
     client = get_wsdl("CIUtilityWs")
@@ -20,6 +21,7 @@ class WebchatSoapController < ApplicationController
     end
     @contact_id = response[:get_anonymous_customer_id_response][:get_anonymous_customer_id_result]
   end
+  helper :get_anonymous_customer_id
 
   def send_message(session_key, contact_id, message, msgtype)
     client = get_wsdl("CIWebCommsWs")
@@ -32,6 +34,7 @@ class WebchatSoapController < ApplicationController
       }
     end  
   end
+  helper :send_message
 
   def get_history_since(session_key, contact_id, last_read_time)
     client = get_wsdl("CIWebCommsWs")
@@ -47,6 +50,7 @@ class WebchatSoapController < ApplicationController
                             [:ci_chat_messages_read_type]
                             [:chat_message]
   end
+  helper :get_history_since
 
   def setup_text_chat(customer_id, skillset_id, chat_query, chat_subject, custom_field, create_as_closed, session_key)
     client = get_wsdl("CICustomerWs")
@@ -56,6 +60,7 @@ class WebchatSoapController < ApplicationController
       }
     end
   end
+  helper :setup_text_chat
 
   def customer_login(username, password)
     client = get_wsdl("CIUtilityWs")
@@ -66,6 +71,7 @@ class WebchatSoapController < ApplicationController
       }
     end
   end
+  helper :customer_login
 
   def get_customer_by_email_address(session_key, username)
     client = get_wsdl("CICustomerWs")
@@ -77,6 +83,7 @@ class WebchatSoapController < ApplicationController
     end
     @customer_id = response[:get_customer_by_email_address_response][:get_customer_by_email_address_result][:id]
   end
+  helper :get_customer_by_email_address
 
   def get_skillset_by_name(session_key)
     client = get_wsdl("CISkillsetWs")
@@ -88,6 +95,7 @@ class WebchatSoapController < ApplicationController
     end
     @skillset_id = response[:get_skillset_by_name_response][:get_skillset_by_name_result][:id]
   end
+  helper :get_skillset_by_name
 
   def timestamp_to_milliseconds(hour, min, day, month, year)
     client = get_wsdl("CIUtilityWs")
@@ -103,6 +111,7 @@ class WebchatSoapController < ApplicationController
        }
     end
   end
+  helper :timestamp_to_milliseconds
 
   def request_scheduled_callback(session_key, cust_id, skillset_id, details, subject, time)
     client = get_wsdl("CICustomerWs")
@@ -119,6 +128,7 @@ class WebchatSoapController < ApplicationController
       }
     end
   end
+  helper :request_scheduled_callback
 
   def request_immediate_callback(session_key, cust_id, skillset_id, details, subject)
     client = get_wsdl("CICustomerWs")
@@ -134,6 +144,24 @@ class WebchatSoapController < ApplicationController
       }
     end
   end
+  helper :request_immediate_callback
+
+
+  def register_new_customer(firstname, lastname, username, password, "", "", number)
+    client = get_wsdl("CICustomerWs")
+    response.to_hash = client.request(:register_new_customer) do
+      soap.body = {
+        :first_name => firstname,
+        :last_name => lastname,
+        :username => email,
+        :password => password,
+        :international_code => intcode,
+        :area_code => areacode,
+        :number => number
+      }
+    end
+  end
+  helper :register_new_customer
 
   def update_alive_time
 
@@ -143,7 +171,4 @@ class WebchatSoapController < ApplicationController
     
   end
 
-  def request_callback
-     
-  end 
 end
