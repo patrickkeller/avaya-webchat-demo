@@ -17,9 +17,8 @@ class WebchatSoapController < ApplicationController
         :email_address => params[:email],
         :phone_number => params[:phone]
       }
-
-    @contact_id = response[:get_anonymous_customer_id_response][:get_anonymous_customer_id_result]
     end
+    @contact_id = response[:get_anonymous_customer_id_response][:get_anonymous_customer_id_result]
   end
 
   def send_message(session_key, contact_id, message, msgtype)
@@ -41,7 +40,7 @@ class WebchatSoapController < ApplicationController
         :contact_id => contact_id,
         :session_key => session_key,
         }     
-      }
+    end
 
     @chat_history = response[:read_chat_message_response][:read_chat_message_result]
                             [:list_of_chat_messages]
@@ -53,7 +52,7 @@ class WebchatSoapController < ApplicationController
     client = get_wsdl("CICustomerWs")
     response.to_hash = client.request(:request_text_chat) do
       soap.body = {
-        :cust_id => 
+        :cust_id => customer_id
       }
     end
   end
@@ -75,6 +74,7 @@ class WebchatSoapController < ApplicationController
         :email_address => username,
         :session_key => session_key
       }
+    end
     @customer_id = response[:get_customer_by_email_address_response][:get_customer_by_email_address_result][:id]
   end
 
@@ -85,6 +85,7 @@ class WebchatSoapController < ApplicationController
         :skillset_name => "#{Settings.aacc.callback_skillset}",
         :session_key => session_key
       }
+    end
     @skillset_id = response[:get_skillset_by_name_response][:get_skillset_by_name_result][:id]
   end
 
@@ -100,7 +101,7 @@ class WebchatSoapController < ApplicationController
         :second => 0,
         :utc_offset_mins => Time.zone_offset('CEST')
        }
-    
+    end
   end
 
   def request_scheduled_callback(session_key, cust_id, skillset_id, details, subject, time)
@@ -113,10 +114,10 @@ class WebchatSoapController < ApplicationController
         :timezone => -999,
         :text => details,
         :subject => subject,
-        :callback_time => time
+        :callback_time => time,
         :session_key => session_key
       }
-    
+    end
   end
 
   def request_immediate_callback(session_key, cust_id, skillset_id, details, subject)
@@ -131,6 +132,7 @@ class WebchatSoapController < ApplicationController
         :subject => subject,
         :session_key => session_key
       }
+    end
   end
 
   def update_alive_time
