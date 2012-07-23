@@ -170,3 +170,4 @@ class WebchatSoapController < ApplicationController
   def close_text_chat
     
   end
+end
