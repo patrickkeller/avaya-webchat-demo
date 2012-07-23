@@ -1,4 +1,4 @@
-class WebchatController < ApplicationController
+class WebchatController < WebchatSoapController
 
 ### SITES #############
   def start    
@@ -21,6 +21,7 @@ class WebchatController < ApplicationController
     password = time.now
     number = caller_number
 
+    ### SOAP Functions ###
     register_new_customer(lastname, username, password, "", "", number)
 
     session_key = customer_login(username, password)
@@ -39,6 +40,7 @@ class WebchatController < ApplicationController
     password = "test"
     number = "0566339641"
 
+    ### SOAP Functions ###
     register_new_customer(firstname, lastname, username, password, "", "", number)
 
     session_key = customer_login(username, password)
