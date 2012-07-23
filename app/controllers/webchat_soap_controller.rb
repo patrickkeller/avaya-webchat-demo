@@ -147,7 +147,7 @@ class WebchatSoapController < ApplicationController
   helper :request_immediate_callback
 
 
-  def register_new_customer(firstname, lastname, username, password, "", "", number)
+  def register_new_customer(firstname, lastname, username, password, intcode, areacode, number)
     client = get_wsdl("CICustomerWs")
     response.to_hash = client.request(:register_new_customer) do
       soap.body = {
@@ -170,5 +170,3 @@ class WebchatSoapController < ApplicationController
   def close_text_chat
     
   end
-
-end
