@@ -12,7 +12,8 @@ class WebchatSoapController < ApplicationController
     client = get_wsdl("CIUtilityWs")
     response.to_hash = client.request(:get_anonymous_customer_id) do
       soap.body = {
-        :login_result => { :session_key => "3447axx000", :anonymous_id => "1343307384" },
+        :session_key => "3447axx000", 
+        :anonymous_id => "1343307384",
         :email_address => "",
         :phone_number => ""
       }
