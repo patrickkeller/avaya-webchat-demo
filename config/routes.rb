@@ -3,16 +3,19 @@ AvayaWebchatDemo::Application.routes.draw do
     resources :welcome, :only => [:index]
 
 
-    ### WEBCHAT ROUTING ###
+    ### SITES ROUTING ###
     scope "/webchat" do
       get 'start',                        to: 'webchat#start',                          as: 'start_webchat'
       get 'start_after_question',         to: 'webchat#start_after_question',           as: 'start_webchat_after_question'
-      get 'callback',                     to: 'webchat#request_callback',               as: 'request_callback'
-      # CALLBACK
+      get 'callback_now',                 to: 'webchat#callback_now',                   as: 'callback_now'
+      get 'callback_scheduled',           to: 'webchat#callback_scheduled',             as: 'callback_scheduled'
+
+    ### GROUP FUNCTIONS ###
       get 'request_callback_now',         to: 'webchat#request_callback_now',           as: 'request_callback_now'        
       get 'request_callback_later',       to: 'webchat#request_callback_later',         as: 'request_callback_later'
     end
 
+    ### SOAP FUNCTIONS ###
     scope "/webchat/soap" do
       # WEBCHAT
       get 'get_anonymous_customer_id',    to: 'webchat_soap#get_anonymous_customer_id', as: 'get_anonymous_customer_id'

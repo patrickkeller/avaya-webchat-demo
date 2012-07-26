@@ -46,10 +46,10 @@ gem 'settingslogic'
 # gem 'unicorn'
 
 # Deploy with Capistrano
-# gem 'capistrano'
+gem 'capistrano'
 
 # To use debugger
-# gem 'debugger'
+#gem 'debugger'
 
 group :development do
   gem 'rails-dev-tweaks'

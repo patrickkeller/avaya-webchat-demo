@@ -138,14 +138,47 @@ class WebchatSoapController < ApplicationController
   def register_new_customer(firstname, lastname, username, password, intcode, areacode, number)
     client = get_wsdl("CICustomerWs")
     response.to_hash = client.request(:register_new_customer) do
-      soap.body = {
-        :first_name => firstname,
-        :last_name => lastname,
-        :username => email,
-        :password => password,
-        :international_code => intcode,
-        :area_code => areacode,
-        :number => number
+      soap.xml = {
+        '<?xml version="1.0" encoding="utf-8"?>
+        <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+        <soap:Body>
+         <RegisterNewCustomer xmlns="http://webservices.ci.ccmm.applications.nortel.com">
+           <newCustomer>
+             <title xmlns="http://datatypes.ci.ccmm.applications.nortel.com"></title>
+             <firstName xmlns="http://datatypes.ci.ccmm.applications.nortel.com">#{firstname}</firstName>
+             <lastName xmlns="http://datatypes.ci.ccmm.applications.nortel.com">#{lastname}</lastName>
+             <username xmlns="http://datatypes.ci.ccmm.applications.nortel.com">#{username}</username>
+             <password xmlns="http://datatypes.ci.ccmm.applications.nortel.com">#{password}</password>
+           </newCustomer>
+           <newPhoneNumber>
+             <internationalCode xmlns="http://datatypes.ci.ccmm.applications.nortel.com">#{intcode}</internationalCode>
+             <areaCode xmlns="http://datatypes.ci.ccmm.applications.nortel.com">#{areacode}</areaCode>
+             <number xmlns="http://datatypes.ci.ccmm.applications.nortel.com">#{number}</number>
+             <phoneNumberType xmlns="http://datatypes.ci.ccmm.applications.nortel.com">Unspecified</phoneNumberType>
+             <doNotCall xmlns="http://datatypes.ci.ccmm.applications.nortel.com">false</doNotCall>
+             <doNotCallSpecified xmlns="http://datatypes.ci.ccmm.applications.nortel.com">false</doNotCallSpecified>
+             <defaultPhoneNumber xmlns="http://datatypes.ci.ccmm.applications.nortel.com">false</defaultPhoneNumber>
+             <defaultPhoneNumberSpecified xmlns="http://datatypes.ci.ccmm.applications.nortel.com">false</defaultPhoneNumberSpecified>
+           </newPhoneNumber>
+           <newAddress>
+             <line1 xmlns="http://datatypes.ci.ccmm.applications.nortel.com"></line1>
+             <line2 xmlns="http://datatypes.ci.ccmm.applications.nortel.com"></line2>
+             <line3 xmlns="http://datatypes.ci.ccmm.applications.nortel.com"></line3>
+             <line4 xmlns="http://datatypes.ci.ccmm.applications.nortel.com"></line4>
+             <line5 xmlns="http://datatypes.ci.ccmm.applications.nortel.com"></line5>
+             <zipcode xmlns="http://datatypes.ci.ccmm.applications.nortel.com"></zipcode>
+             <country xmlns="http://datatypes.ci.ccmm.applications.nortel.com"></country>
+             <defaultAddress xmlns="http://datatypes.ci.ccmm.applications.nortel.com">false</defaultAddress>
+             <defaultAddressSpecified xmlns="http://datatypes.ci.ccmm.applications.nortel.com">false</defaultAddressSpecified>
+           </newAddress>
+           <newEmailAddress>
+             <emailAddress xmlns="http://datatypes.ci.ccmm.applications.nortel.com">#{username}</emailAddress>
+             <defaultEmailAddress xmlns="http://datatypes.ci.ccmm.applications.nortel.com">false</defaultEmailAddress>
+             <defaultEmailAddressSpecified xmlns="http://datatypes.ci.ccmm.applications.nortel.com">false</defaultEmailAddressSpecified>
+           </newEmailAddress>
+         </RegisterNewCustomer>
+        </soap:Body>
+        </soap:Envelope>'
       }
     end
   end

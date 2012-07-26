@@ -1,13 +1,16 @@
 class WebchatController < WebchatSoapController
 
 ### SITES #############
-  def start    
+  def start 
   end
 
   def start_after_question    
   end
 
-  def request_callback   
+  def callback_now   
+  end
+
+  def callback_scheduled  
   end
 #######################
 
@@ -39,9 +42,11 @@ class WebchatController < WebchatSoapController
     username = "test"
     password = "test"
     number = "0566339641"
+    areacode = ""
+    intcode = ""
 
     ### SOAP Functions ###
-    register_new_customer(firstname, lastname, username, password, "", "", number)
+    register_new_customer(firstname, lastname, username, password, intcode, areacode, number)
 
     session_key = customer_login(username, password)
     cust_id = get_customer_by_email_address(session_key, username)
