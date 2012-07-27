@@ -147,15 +147,15 @@ class WebchatSoapController < ApplicationController
       soap.body = {
         "ins0:newCustomer" => {
           "ins1:title" => "",
-          "ins1:firstName" => "#{firstname}",
-          "ins1:lastName" => "#{lastname}",
-          "ins1:username" => "#{username}",
-          "ins1:password" => "#{password}"
+          "ins1:firstName" => firstname,
+          "ins1:lastName" => lastname,
+          "ins1:username" => username,
+          "ins1:password" => password
         },
         "ins0:newPhoneNumber" => {
-          "ins1:internationalCode" => "#{intcode}",
-          "ins1:areaCode" => "#{areacode}",
-          "ins1:number" => "#{number}"
+          "ins1:internationalCode" => intcode,
+          "ins1:areaCode" => areacode,
+          "ins1:number" => number
         }
       }
     end
