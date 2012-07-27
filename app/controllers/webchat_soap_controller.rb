@@ -73,7 +73,7 @@ class WebchatSoapController < ApplicationController
     client = get_wsdl("CICustomerWs")
     response.to_hash = client.request(:get_customer_by_email_address) do
       soap.body = {
-        "ins0:emailAddress" => "#{username}"
+        "ins0:emailAddress" => "#{username}",
         "ins0:sessionKey" => "#{session_key}"
       }
     end
@@ -135,7 +135,7 @@ class WebchatSoapController < ApplicationController
           "ins1:timezone" => -999,
           "ins1:text" => "#{details}",
           "ins1:subject" => "#{subject}"
-        }
+        },
         "ins0:sessionKey" => "#{session_key}"
       }
     end
