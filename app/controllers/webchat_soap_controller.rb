@@ -146,7 +146,6 @@ class WebchatSoapController < ApplicationController
     response.to_hash = client.request(:register_new_customer) do
       soap.body = {
         "ins0:newCustomer" => {
-          "ins1:title" => "",
           "ins1:firstName" => firstname,
           "ins1:lastName" => lastname,
           "ins1:username" => username,
@@ -154,8 +153,6 @@ class WebchatSoapController < ApplicationController
         },
         "ins0:newPhoneNumber" => {
           "ins1:internationalCode" => intcode,
-          "ins1:areaCode" => areacode,
-          "ins1:number" => number
         }
       }
     end
