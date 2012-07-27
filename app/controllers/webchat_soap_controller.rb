@@ -10,14 +10,14 @@ class WebchatSoapController < ApplicationController
 
   def get_anonymous_customer_id
     client = get_wsdl("CIUtilityWs")
-    response.to_hash = client.request :web, "GetAnonymousCustomerID" do
+    response.to_hash = client.request(:get_anonymous_customer_id) do
       soap.body = {
-        "web:LoginResult" => {
-          "web:SessionKey" => "3472aJa300",            
-          "web:AnonymousID" => "1343308799",
+        "ins0:LoginResult" => {
+          "ins0:SessionKey" => "3472aJa300",            
+          "ins0:AnonymousID" => "1343308799",
         },
-        "web:EmailAddress" => "",
-        "web:PhoneNumber" => ""
+        "ins0:EmailAddress" => "",
+        "ins0:PhoneNumber" => ""
       }
     end
     @contact_id = response[:get_anonymous_customer_id_response][:get_anonymous_customer_id_result]
@@ -63,8 +63,8 @@ class WebchatSoapController < ApplicationController
     client = get_wsdl("CIUtilityWs")
     response.to_hash = client.request(:customer_login) do
       soap.body = {
-        :username => username,
-        :password => password
+        "ins0:username" => "#{username}",
+        "ins0:password" => "#{password}"
       }
     end
   end
@@ -73,8 +73,8 @@ class WebchatSoapController < ApplicationController
     client = get_wsdl("CICustomerWs")
     response.to_hash = client.request(:get_customer_by_email_address) do
       soap.body = {
-        :email_address => username,
-        :session_key => session_key
+        "ins0:emailAddress" => "#{username}"
+        "ins0:sessionKey" => "#{session_key}"
       }
     end
     @customer_id = response[:get_customer_by_email_address_response][:get_customer_by_email_address_result][:id]
@@ -84,8 +84,8 @@ class WebchatSoapController < ApplicationController
     client = get_wsdl("CISkillsetWs")
     response.to_hash = client.request(:get_skillset_by_name) do
       soap.body = {
-        :skillset_name => "#{Settings.aacc.callback_skillset}",
-        :session_key => session_key
+        "ins0:skillsetName" => "#{Settings.aacc.callback_skillset}",
+        "ins0:sessionKey" => "#{session_key}"
       }
     end
     @skillset_id = response[:get_skillset_by_name_response][:get_skillset_by_name_result][:id]
@@ -95,13 +95,15 @@ class WebchatSoapController < ApplicationController
     client = get_wsdl("CIUtilityWs")
     response.to_hash = client.request(:timestamp_to_milliseconds) do
       soap.body = {
-        :day => day,
-        :month => month,
-        :year => year,
-        :hour => hour,
-        :minute => min,
-        :second => 0,
-        :utc_offset_mins => Time.zone_offset('CEST')
+        "ins0:timestamp" => {
+          "ins1:day" => "#{day}",
+          "ins1:month" => "#{month}",
+          "ins1:year" => "#{year}",
+          "ins1:hour" => "#{hour}",
+          "ins1:minute" => "#{minute}",
+          "ins1:second" => 0,
+          "ins1:UTCOffsetMins" => Time.zone_offset('CEST')
+        }
        }
     end
   end
@@ -126,13 +128,15 @@ class WebchatSoapController < ApplicationController
     client = get_wsdl("CICustomerWs")
     response.to_hash = client.request(:request_immediate_callback) do
       soap.body = {
-        :cust_id => cust_id,
-        :skillset_id => skillset_id,
-        :priority => "Priority_3_Medium_High",
-        :timezone => -999,
-        :text => details,
-        :subject => subject,
-        :session_key => session_key
+        "ins0:custID" => "#{cust_id}",
+        "ins0:newContact" => {
+          "ins1:skillsetID" => "#{skillset_id}",
+          "ins1:priority" => "Priority_3_Medium_High",
+          "ins1:timezone" => -999,
+          "ins1:text" => "#{details}",
+          "ins1:subject" => "#{subject}"
+        }
+        "ins0:sessionKey" => "#{session_key}"
       }
     end
   end
@@ -140,8 +144,19 @@ class WebchatSoapController < ApplicationController
   def register_new_customer(firstname, lastname, username, password, intcode, areacode, number)
     client = get_wsdl("CICustomerWs")
     response.to_hash = client.request(:register_new_customer) do
-      soap.xml = {
-
+      soap.body = {
+        "ins0:newCustomer" => {
+          "ins1:title" => "",
+          "ins1:firstName" => "#{firstname}",
+          "ins1:lastName" => "#{lastname}",
+          "ins1:username" => "#{username}",
+          "ins1:password" => "#{password}"
+        },
+        "ins0:newPhoneNumber" => {
+          "ins1:internationalCode" => "#{intcode}",
+          "ins1:areaCode" => "#{areacode}",
+          "ins1:number" => "#{number}"
+        }
       }
     end
   end
